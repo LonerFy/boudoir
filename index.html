@@ -1677,12 +1677,13 @@ document.addEventListener('click', e => {
 /* ouverture : chaque lettre devient une fenêtre sur une image, puis le mot se recompose */
 async function intro() {
   const pre = $('#preloader'), mask = $('#pl-mask'), letter = $('#pl-letter'), img = $('#pl-img'), row = $('#pl-row'), end = $('#pl-end');
-  let seen = false; try { seen = sessionStorage.getItem('boudoir.intro') === '1'; } catch (e) { /* stockage indisponible */ }
+  let seen = false;
+  try { seen = Date.now() - (+localStorage.getItem('boudoir.introAt') || 0) < 20 * 60 * 1000; } catch (e) { /* stockage indisponible */ }
+  if (/[?&]intro\b/.test(location.search)) seen = false;
   let skip = false, release; const stop = new Promise(r => { release = r; });
   pre.addEventListener('click', () => { skip = true; release(); });
   const nap = ms => Promise.race([wait(ms), stop]);
-  const leave = () => { try { sessionStorage.setItem('boudoir.intro', '1'); } catch (e) { /* idem */ } pre.classList.add('out'); go(); setTimeout(() => pre.remove(), 1200); };
-  if (RM) { pre.remove(); go(); return; }
+  const leave = () => { try { localStorage.setItem('boudoir.introAt', String(Date.now())); } catch (e) { /* idem */ } pre.classList.add('out'); go(); setTimeout(() => pre.remove(), 1200); };
   if (!seen) {
     const ids = ['grenat', 'constellation', 'vendome', 'ecarlate', 'etincelle', 'colombine'].map(id => byId[id].img).concat(LOOKS[5].img);
     const url = id => `${U}${id}?auto=format&fit=crop&w=1100&h=1400&q=60`;
@@ -1697,8 +1698,11 @@ async function intro() {
       row.children[i].classList.add('on');
       const r = letter.getBoundingClientRect();
       mask.style.transformOrigin = `${r.left + r.width * ORI[i][0]}px ${r.top + r.height * ORI[i][1]}px`;
-      img.animate([{ transform: 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 860, easing: 'ease-out' });
-      const a = mask.animate([{ transform: 'scale(1.3)', easing: 'cubic-bezier(.2,.7,.2,1)' }, { transform: 'scale(1)', offset: 0.34, easing: 'cubic-bezier(.85,0,.7,1)' }, { transform: 'scale(120)' }], { duration: 860, fill: 'forwards' });
+      img.animate([{ transform: RM ? 'scale(1)' : 'scale(1.2)' }, { transform: 'scale(1)' }], { duration: 860, easing: 'ease-out' });
+      const a = RM
+        ? mask.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 480, fill: 'forwards' })
+        : mask.animate([{ transform: 'scale(1.3)', easing: 'cubic-bezier(.2,.7,.2,1)' }, { transform: 'scale(1)', offset: 0.34, easing: 'cubic-bezier(.85,0,.7,1)' }, { transform: 'scale(120)' }], { duration: 860, fill: 'forwards' });
+      if (RM) await Promise.race([wait(620), stop]);
       await Promise.race([a.finished.catch(() => 0), stop]);
       if (i < 6) a.cancel();
     }
