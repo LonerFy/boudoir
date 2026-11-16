@@ -532,7 +532,7 @@ footer{overflow:hidden;border-top:1px solid var(--line);padding:clamp(3.5rem,8vw
 .pl-img{position:absolute;inset:-4%;background:linear-gradient(150deg,#5C1A2E,#2a1118 55%,#8a6a35) center/cover no-repeat;opacity:0;transition:filter 1.1s var(--ease),transform 1.6s var(--ease)}
 .pl-img.on{opacity:1}
 .pl-img.blur{filter:blur(16px) brightness(.36) saturate(1.15);transform:scale(1.12)}
-.pl-mask{position:absolute;inset:0;background:#000;display:grid;place-items:center;mix-blend-mode:multiply;will-change:transform}
+.pl-mask{position:absolute;inset:0;background:rgba(0,0,0,.9);display:grid;place-items:center;mix-blend-mode:multiply;will-change:transform}
 #pl-letter{font-family:var(--serif);font-weight:600;font-size:min(70vh,84vw);line-height:1;color:#fff;display:block}
 .pl-row{position:absolute;left:0;right:0;bottom:2.4rem;display:flex;justify-content:center;gap:.9em;font-family:var(--serif);font-size:1rem;transition:opacity .5s}
 .pl-row i{font-style:normal;color:rgba(240,230,220,.28);transition:color .4s,transform .5s var(--ease)}
@@ -570,6 +570,10 @@ html[data-theme="saphir"]{--noir:#0B0F1A;--noir-2:#111727;--noir-3:#182036;--win
 ::view-transition-new(root){animation:vt .9s cubic-bezier(.76,0,.24,1)}
 @keyframes vt{from{clip-path:circle(0 at var(--tx,50%) var(--ty,0))}to{clip-path:circle(150vmax at var(--tx,50%) var(--ty,0))}}
 @media (max-width:520px){.btn{padding:.95rem 1.5rem}.hero-actions .btn{flex:1 1 auto}}
+
+#pl-letter{transform:scaleX(var(--lw,1));transform-origin:50% 50%}
+@media (min-aspect-ratio:11/10){#pl-letter{--lw:1.28;font-size:min(86vh,60vw)}}
+.pl-img{background-position:center 35%}
 
 </style>
 </head>
@@ -1677,16 +1681,15 @@ document.addEventListener('click', e => {
 /* ouverture : chaque lettre devient une fenêtre sur une image, puis le mot se recompose */
 async function intro() {
   const pre = $('#preloader'), mask = $('#pl-mask'), letter = $('#pl-letter'), img = $('#pl-img'), row = $('#pl-row'), end = $('#pl-end');
-  let seen = false;
-  try { seen = Date.now() - (+localStorage.getItem('boudoir.introAt') || 0) < 20 * 60 * 1000; } catch (e) { /* stockage indisponible */ }
-  if (/[?&]intro\b/.test(location.search)) seen = false;
+  const seen = false; // l'intro complète rejoue à chaque chargement
   let skip = false, release; const stop = new Promise(r => { release = r; });
   pre.addEventListener('click', () => { skip = true; release(); });
   const nap = ms => Promise.race([wait(ms), stop]);
   const leave = () => { try { localStorage.setItem('boudoir.introAt', String(Date.now())); } catch (e) { /* idem */ } pre.classList.add('out'); go(); setTimeout(() => pre.remove(), 1200); };
   if (!seen) {
-    const ids = ['grenat', 'constellation', 'vendome', 'ecarlate', 'etincelle', 'colombine'].map(id => byId[id].img).concat(LOOKS[5].img);
-    const url = id => `${U}${id}?auto=format&fit=crop&w=1100&h=1400&q=60`;
+    const ids = [ED.hero, LOOKS[5].img, byId.vendome.img, byId.ecarlate.img, LOOKS[2].img, byId.colombine.img, LOOKS[3].img];
+    const wide = innerWidth > innerHeight * 1.05;
+    const url = id => wide ? `${U}${id}?auto=format&fit=crop&crop=entropy&w=1920&h=1100&q=62` : `${U}${id}?auto=format&fit=crop&crop=entropy&w=1000&h=1500&q=60`;
     const loads = ids.map(id => new Promise(r => { const im = new Image(); im.onload = im.onerror = r; im.src = url(id); }));
     const font = document.fonts && document.fonts.load ? document.fonts.load('600 80px Fraunces').catch(() => 0) : 0;
     await Promise.race([Promise.all([...loads, font]), wait(3500), stop]);
