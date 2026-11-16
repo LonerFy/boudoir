@@ -555,12 +555,6 @@ footer{overflow:hidden;border-top:1px solid var(--line);padding:clamp(3.5rem,8vw
 .pl-skip{position:absolute;right:1.2rem;top:1.1rem;font-size:.8rem;color:rgba(240,230,220,.6);border-bottom:1px solid rgba(240,230,220,.25);padding-bottom:2px}
 
 /* ===== thèmes ===== */
-.themes{display:flex;gap:.55rem;align-items:center}
-.themes small{color:var(--mauve);font-size:.8rem;margin-right:.3rem}
-.tdot{width:17px;height:17px;border-radius:50%;background:linear-gradient(135deg,var(--c1) 50%,var(--c2) 50%);border:1px solid var(--line);outline:1px solid transparent;outline-offset:3px;transition:transform .4s var(--ease),outline-color .3s}
-.tdot:hover{transform:scale(1.25) rotate(45deg)}
-.tdot.on{outline-color:var(--or)}
-@media (max-width:1100px){.hdr-themes{display:none}}
 html[data-theme="ivoire"]{--noir:#F3ECE2;--noir-2:#EAE0D3;--noir-3:#E0D4C5;--wine:#7A2238;--wine-light:#9C4560;--or:#8C6A2A;--or-soft:#7A2238;--ivoire:#1B1413;--mauve:#6E5F64;--bg-rgb:243,236,226;--or-rgb:140,106,42;--fg-rgb:27,20,19;--wine-rgb:122,34,56;--line:rgba(140,106,42,.32);--line-2:rgba(27,20,19,.13)}
 html[data-theme="ivoire"] .grain{opacity:.035;mix-blend-mode:multiply}
 html[data-theme="ivoire"] .ph{background:linear-gradient(140deg,#e2d6c8,#d6c8b8)}
@@ -574,6 +568,42 @@ html[data-theme="saphir"]{--noir:#0B0F1A;--noir-2:#111727;--noir-3:#182036;--win
 #pl-letter{transform:scaleX(var(--lw,1));transform-origin:50% 50%}
 @media (min-aspect-ratio:11/10){#pl-letter{--lw:1.28;font-size:min(86vh,60vw)}}
 .pl-img{background-position:center 35%}
+
+.tbtn{display:inline-flex;align-items:center;gap:.5rem;height:42px;padding:0 1.05rem 0 .8rem;border:1px solid var(--line);border-radius:999px;font-size:.85rem;margin-right:.45rem;transition:background .3s,border-color .3s,color .3s}
+.tbtn:hover,.tbtn[aria-expanded="true"]{border-color:var(--or);background:rgba(var(--or-rgb),.12);color:var(--or-soft)}
+.tbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.4}
+.tbtn svg circle{fill:currentColor;stroke:none}
+.menu-theme{display:flex;justify-content:space-between;align-items:center;gap:1rem;margin-top:2rem;padding:1rem 1.1rem;border:1px solid var(--line);border-radius:12px;font-size:1rem;width:100%;text-align:left}
+.menu-theme span{display:flex;align-items:center;gap:.7rem}
+.menu-theme svg{width:20px;height:20px;stroke:var(--or);fill:none;stroke-width:1.4}
+.menu-theme svg circle{fill:var(--or);stroke:none}
+.menu-theme i{font-family:var(--serif);color:var(--or-soft)}
+.sheet{position:fixed;z-index:810;top:4.7rem;right:1.2rem;width:min(390px,calc(100vw - 2rem));background:var(--noir-2);border:1px solid var(--line);border-radius:10px;padding:1.3rem 1.2rem 1.2rem;box-shadow:0 30px 80px -20px rgba(0,0,0,.7);opacity:0;visibility:hidden;transform:translateY(-12px) scale(.98);transform-origin:top right;transition:opacity .35s var(--ease),transform .5s var(--ease),visibility .5s}
+.sheet.open{opacity:1;visibility:visible;transform:none}
+.sheet-head{display:flex;justify-content:space-between;align-items:flex-start;gap:1rem;margin-bottom:1rem}
+.sheet-head h2{font-size:1.4rem}
+.sheet-head p{color:var(--mauve);font-size:.86rem;margin-top:.35rem}
+.tlist{display:grid;gap:.6rem}
+.tcard{display:grid;grid-template-columns:76px 1fr auto;gap:1rem;align-items:center;text-align:left;padding:.65rem;border:1px solid var(--line-2);border-radius:10px;transition:border-color .3s,background .3s,transform .4s var(--ease)}
+.tcard:hover{border-color:var(--or);transform:translateX(-3px)}
+.tcard.on{border-color:var(--or);background:rgba(var(--or-rgb),.1)}
+.tprev{position:relative;width:76px;height:58px;border-radius:7px;background:var(--bg);overflow:hidden;border:1px solid rgba(128,128,128,.3);display:block}
+.tprev b{position:absolute;left:8px;top:5px;font-family:var(--serif);font-weight:500;font-size:1.3rem;color:var(--fg);line-height:1}
+.tprev i{position:absolute;left:8px;right:26px;bottom:10px;height:3px;border-radius:2px;background:var(--ac)}
+.tprev u{position:absolute;right:-8px;top:-8px;width:34px;height:34px;border-radius:50%;background:var(--wn);opacity:.95}
+.tcard strong{display:block;font-family:var(--serif);font-weight:500;font-size:1.1rem}
+.tcard small{display:block;color:var(--mauve);font-size:.8rem;line-height:1.35;margin-top:.1rem}
+.tcheck{width:22px;height:22px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;transition:background .3s,border-color .3s}
+.tcheck svg{width:13px;height:13px;stroke:var(--noir);fill:none;stroke-width:2;opacity:0}
+.tcard.on .tcheck{background:var(--or);border-color:var(--or)}
+.tcard.on .tcheck svg{opacity:1}
+@media (max-width:860px){
+  .tbtn{width:42px;padding:0;justify-content:center;margin-right:0;border-color:transparent}
+  .tbtn span{display:none}
+  .sheet{top:auto;left:0;right:0;bottom:0;width:auto;border-radius:18px 18px 0 0;border-bottom:0;padding:1.1rem 1rem calc(1.2rem + env(safe-area-inset-bottom));transform:translateY(102%);transform-origin:bottom}
+  .sheet.open{transform:none}
+}
+@media (max-width:380px){.logo{font-size:1.2rem;letter-spacing:.1em}.ibtn{width:38px}}
 
 </style>
 </head>
@@ -605,8 +635,8 @@ html[data-theme="saphir"]{--noir:#0B0F1A;--noir-2:#111727;--noir-3:#182036;--win
     <a href="#/accords" data-nav="accords">Les accords</a>
     <a href="#/maison" data-nav="maison">La maison</a>
   </nav>
-  <div class="themes hdr-themes" data-themes></div>
   <div class="tools">
+    <button class="tbtn" data-open="themes" aria-label="Thèmes de couleurs" aria-expanded="false"><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4c0-4-4-7.2-9-7.2Z"/><circle cx="7.5" cy="11.2" r="1"/><circle cx="10" cy="7.4" r="1"/><circle cx="14.5" cy="7.4" r="1"/></svg><span>Thèmes</span></button>
     <button class="ibtn" data-open="search" aria-label="Rechercher une pièce"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="M16 16l4.5 4.5"/></svg></button>
     <button class="ibtn" data-open="fav" aria-label="Vos favoris"><svg viewBox="0 0 24 24"><path d="M12 20.5S3.5 15.4 3.5 9.2A4.7 4.7 0 0 1 12 6.6a4.7 4.7 0 0 1 8.5 2.6c0 6.2-8.5 11.3-8.5 11.3Z"/></svg><span class="badge" id="fav-count">0</span></button>
     <button class="ibtn" id="cart-btn" data-open="cart" aria-label="Votre panier"><svg viewBox="0 0 24 24"><path d="M5 8h14l-1 12H6L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg><span class="badge" id="cart-count">0</span></button>
@@ -620,7 +650,7 @@ html[data-theme="saphir"]{--noir:#0B0F1A;--noir-2:#111727;--noir-3:#182036;--win
   <a href="#/atelier" data-nav="atelier" style="--i:2"><span>L’atelier</span></a>
   <a href="#/accords" data-nav="accords" style="--i:3"><span>Les accords</span></a>
   <a href="#/maison" data-nav="maison" style="--i:4"><span>La maison</span></a>
-  <div class="menu-foot themes"><small>Ambiance</small><span class="themes" data-themes></span></div>
+  <button class="menu-theme" data-open="themes"><span><svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.8-.8 1.8-1.7 0-.5-.2-.9-.5-1.2-.3-.3-.5-.7-.5-1.2 0-1 .8-1.7 1.8-1.7H17a4 4 0 0 0 4-4c0-4-4-7.2-9-7.2Z"/><circle cx="7.5" cy="11.2" r="1"/><circle cx="10" cy="7.4" r="1"/><circle cx="14.5" cy="7.4" r="1"/></svg>Thèmes de couleurs</span><i id="menu-theme-name">Grenat</i></button>
 </div>
 
 <main id="view"></main>
@@ -656,12 +686,17 @@ html[data-theme="saphir"]{--noir:#0B0F1A;--noir-2:#111727;--noir-3:#182036;--win
         </ul>
       </div>
     </div>
-    <div class="foot-end"><span>© 2026 Boudoir</span><span class="themes"><small>Ambiance</small><span class="themes" data-themes></span></span><span>Photographies : Unsplash</span></div>
+    <div class="foot-end"><span>© 2026 Boudoir</span><button class="ulink" data-open="themes">Changer les couleurs du site</button><span>Photographies : Unsplash</span></div>
     <div class="wordmark" aria-hidden="true">BOUDOIR</div>
   </div>
 </footer>
 
 <div id="scrim"></div>
+
+<aside id="themes" class="sheet" role="dialog" aria-label="Thèmes de couleurs">
+  <div class="sheet-head"><div><h2>Thèmes de couleurs</h2><p>Touchez un thème : le site change tout de suite.</p></div><button class="ibtn" data-close aria-label="Fermer"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+  <div class="tlist" id="tlist"></div>
+</aside>
 
 <aside class="drawer" id="cart-drawer" aria-label="Panier">
   <div class="drawer-head"><h2 id="cart-title">Votre panier</h2><button class="ibtn" data-close aria-label="Fermer le panier"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
@@ -1537,6 +1572,7 @@ function openDrawer(k) {
 }
 function closeAll(keep) {
   $$('.drawer.open').forEach(d => d.classList.remove('open'));
+  $('#themes').classList.remove('open'); $$('.tbtn').forEach(x => x.setAttribute('aria-expanded', false));
   scrim.classList.remove('on'); menu.classList.remove('open'); search.classList.remove('open');
   $('#burger').setAttribute('aria-expanded', false);
   document.body.classList.remove('lock');
@@ -1566,10 +1602,12 @@ document.addEventListener('click', e => {
   }
   if ((b = t.closest('[data-add]'))) { add(b.dataset.add, b.dataset.size, $('img', b.closest('.pcard'))); b.closest('.quick').classList.remove('open'); return; }
   if (!t.closest('.quick')) $$('.quick.open').forEach(x => x.classList.remove('open'));
+  if (!t.closest('#themes') && !t.closest('[data-open="themes"]') && !t.closest('[data-theme-set]')) { $('#themes').classList.remove('open'); $$('.tbtn').forEach(x => x.setAttribute('aria-expanded', false)); }
   if ((b = t.closest('[data-outfit-add]'))) { addOutfit(b.dataset.outfitAdd.split(',')); return; }
   if ((b = t.closest('[data-open]'))) {
     const k = b.dataset.open;
     if (k === 'search') { closeAll(true); lastFocus = b; search.classList.add('open'); document.body.classList.add('lock'); setTimeout(() => $('#s-input').focus(), 250); }
+    else if (k === 'themes') { const sh = $('#themes'), o = !sh.classList.contains('open'); closeAll(true); sh.classList.toggle('open', o); $$('.tbtn').forEach(x => x.setAttribute('aria-expanded', o)); }
     else if (k === 'menu') { const o = !menu.classList.contains('open'); closeAll(true); menu.classList.toggle('open', o); document.body.classList.toggle('lock', o); b.setAttribute('aria-expanded', o); }
     else openDrawer(k);
     return;
@@ -1660,14 +1698,20 @@ document.addEventListener('pointerover', e => {
 });
 
 /* thèmes de couleurs */
-const THEMES = { grenat: ['Grenat', '#5C1A2E', '#14100F'], ivoire: ['Ivoire', '#F3ECE2', '#7A2238'], emeraude: ['Émeraude', '#0F4A3A', '#0C1512'], saphir: ['Saphir', '#1E2F6B', '#0B0F1A'] };
+const THEMES = {
+  grenat: ['Grenat', '#5C1A2E', '#14100F', '#C6A15B', '#F0E6DC', 'Bordeaux profond et or : l’ambiance d’origine.'],
+  ivoire: ['Ivoire', '#7A2238', '#F3ECE2', '#8C6A2A', '#1B1413', 'Clair et chaleureux, pour lire en plein jour.'],
+  emeraude: ['Émeraude', '#0F4A3A', '#0C1512', '#CDB27A', '#EEF0E6', 'Vert forêt et champagne.'],
+  saphir: ['Saphir', '#1E2F6B', '#0B0F1A', '#C9CED9', '#EDEFF5', 'Bleu nuit et argent.']
+};
 const rootEl = document.documentElement;
 let theme = THEMES[rootEl.dataset.theme] ? rootEl.dataset.theme : 'grenat';
 const markTheme = () => {
-  $$('[data-theme-set]').forEach(b => { b.classList.toggle('on', b.dataset.themeSet === theme); b.setAttribute('aria-pressed', b.dataset.themeSet === theme); });
+  $$('[data-theme-set]').forEach(b => { const on = b.dataset.themeSet === theme; b.classList.toggle('on', on); b.setAttribute('aria-pressed', on); });
+  const n = $('#menu-theme-name'); if (n) n.textContent = THEMES[theme][0];
   const m = $('meta[name="theme-color"]'); if (m) m.content = getComputedStyle(rootEl).getPropertyValue('--noir').trim();
 };
-$$('[data-themes]').forEach(el => { el.innerHTML = Object.entries(THEMES).map(([k, [n, c1, c2]]) => `<button class="tdot" data-theme-set="${k}" title="${n}" aria-label="Ambiance ${n}" style="--c1:${c1};--c2:${c2}"></button>`).join(''); });
+$('#tlist').innerHTML = Object.entries(THEMES).map(([k, [n, wn, bg, ac, fg, d]]) => `<button class="tcard" data-theme-set="${k}" aria-pressed="false"><span class="tprev" style="--bg:${bg};--ac:${ac};--fg:${fg};--wn:${wn}"><b>Aa</b><i></i><u></u></span><span><strong>${n}</strong><small>${d}</small></span><span class="tcheck">${ICON.check}</span></button>`).join('');
 markTheme();
 document.addEventListener('click', e => {
   const b = e.target.closest('[data-theme-set]'); if (!b || b.dataset.themeSet === theme) return;
@@ -1675,7 +1719,6 @@ document.addEventListener('click', e => {
   const apply = () => { if (theme === 'grenat') rootEl.removeAttribute('data-theme'); else rootEl.dataset.theme = theme; markTheme(); if (heroPaint) heroPaint(); };
   rootEl.style.setProperty('--tx', e.clientX + 'px'); rootEl.style.setProperty('--ty', e.clientY + 'px');
   if (document.startViewTransition && !RM) document.startViewTransition(apply); else apply();
-  toast('Ambiance ' + THEMES[theme][0]);
 });
 
 /* ouverture : chaque lettre devient une fenêtre sur une image, puis le mot se recompose */
